@@ -15,7 +15,7 @@ class MainWindow(QtWidgets.QMainWindow):
         loadUi("main.ui", self)
 
         # Initialize the camera.
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture("nvarguscamerasrc ! nvvidconv ! video/x-raw, width=1024, height=576, format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink", cv2.CAP_GSTREAMER)
 
         # Initialize the timer for receiving frames from the camera.
         self.timer = QtCore.QTimer(self)

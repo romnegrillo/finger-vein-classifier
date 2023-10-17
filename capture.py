@@ -1,15 +1,16 @@
 import os
 from datetime import datetime
 import cv2
+ 
 
 # Directory to save the images, you can change it depending
 # on the dataset you are gathering.
 SAVE_DIR = "dataset/with_veins"
 if not os.path.exists(SAVE_DIR):
-    os.makedirs(SAVE_DIR)
+    os.makedirs(SAVE_DIR
 
 # Open a connection to the camera (usually the default camera is 0)
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("nvarguscamerasrc ! nvvidconv ! video/x-raw, width=1024, height=576, format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink", cv2.CAP_GSTREAMER)
 
 if not cap.isOpened():
     print("Could not open the camera!")
