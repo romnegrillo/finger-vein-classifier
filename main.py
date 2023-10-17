@@ -82,7 +82,7 @@ class MainWindow(QtWidgets.QMainWindow):
             enhanced = clahe.apply(blurred)
 
             # Extract region of interest (ROI)
-            x, y, w, h = 100, 100, 50, 50  # Example coordinates for the region
+            x, y, w, h = 420, 220, 100, 100  # Example coordinates for the region
             roi = enhanced[y : y + h, x : x + w]
 
             # Check if the ROI is bright
