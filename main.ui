@@ -77,6 +77,11 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
+    </property>
    </widget>
    <widget class="QLabel" name="result_label">
     <property name="geometry">

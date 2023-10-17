@@ -60,6 +60,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.info_label.setText(
             "Image captured. Press <b>Identify</b> to detect or press <b>Reset</b> to resume camera."
         )
+        self.result_input.setText("")
 
     def handle_identify_button(self):
         """Handle the event when the identify button is clicked."""
@@ -87,9 +88,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # Check if the ROI is a valid vein region (not too bright or too dark)
             if not self.is_valid_vein_region(roi):
-                self.reset_input.setText("No Vein Detected")
+                self.result_input.setText("No Vein Detected")
             else:
-                self.reset_input.setText("Vein Detected")
+                self.result_input.setText("Vein Detected")
 
             # Draw the rectangle around the ROI on the enhanced image
             # color = (0, 255, 0)  # Green color
@@ -115,6 +116,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.captured_frame = None
         self.timer.start(30)  # Resume updating the frames
         self.info_label.setText("Capturing in progress....")
+        self.result_input.setText("")
 
     def display_image(self, frame):
         """Utility function to display an image on the QLabel."""
