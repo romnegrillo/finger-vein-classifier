@@ -68,7 +68,6 @@ class MainWindow(QtWidgets.QMainWindow):
             self.info_label.setText(
                 "Click <b>Capture</b> image first before clicking <b>Identify</b>"
             )
-
             return
 
         if self.captured_frame is not None:
@@ -82,11 +81,28 @@ class MainWindow(QtWidgets.QMainWindow):
             clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
             enhanced = clahe.apply(blurred)
 
-            # TODO:
-            # Add detection of veins here.
-            # Camera must be able to see the veins clearly for creating the dataset in the proto casing.
+            # Extract region of interest (ROI)
+            x, y, w, h = 100, 100, 50, 50  # Example coordinates for the region
+            roi = enhanced[y : y + h, x : x + w]
+
+            # Check if the ROI is bright
+            if self.is_bright_region(roi):
+                self.info_label.setText("No Vein Detected")
+            else:
+                self.info_label.setText("Vein Detected")
+
+            # Draw the rectangle around the ROI on the enhanced image
+            color = (0, 255, 0)  # Green color
+            thickness = 2
+            cv2.rectangle(enhanced, (x, y), (x + w, y + h), color, thickness)
 
             self.display_image(enhanced)
+
+    def is_bright_region(self, region):
+        """Check if a given region is bright."""
+        threshold = 200  # Adjust this value based on your needs
+        mean_brightness = region.mean()
+        return mean_brightness > threshold
 
     def handle_reset_button(self):
         """Handle the event when the reset button is clicked."""
@@ -128,7 +144,6 @@ class MainWindow(QtWidgets.QMainWindow):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         self.display_image(frame)
 
-    # pylint: disable=invalid-name
     def closeEvent(self, event):
         """Release the camera when the window is closed."""
         if hasattr(self, "cap") and self.cap.isOpened():
