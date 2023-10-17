@@ -85,24 +85,28 @@ class MainWindow(QtWidgets.QMainWindow):
             x, y, w, h = 420, 220, 100, 100  # Example coordinates for the region
             roi = enhanced[y : y + h, x : x + w]
 
-            # Check if the ROI is bright
-            if self.is_bright_region(roi):
-                self.info_label.setText("No Vein Detected")
+            # Check if the ROI is a valid vein region (not too bright or too dark)
+            if not self.is_valid_vein_region(roi):
+                self.reset_input.setText("No Vein Detected")
             else:
-                self.info_label.setText("Vein Detected")
+                self.reset_input.setText("Vein Detected")
 
             # Draw the rectangle around the ROI on the enhanced image
-            color = (0, 255, 0)  # Green color
-            thickness = 2
-            cv2.rectangle(enhanced, (x, y), (x + w, y + h), color, thickness)
+            # color = (0, 255, 0)  # Green color
+            # thickness = 2
+            # cv2.rectangle(enhanced, (x, y), (x + w, y + h), color, thickness)
 
             self.display_image(enhanced)
 
-    def is_bright_region(self, region):
-        """Check if a given region is bright."""
-        threshold = 200  # Adjust this value based on your needs
+    def is_valid_vein_region(self, region):
+        """Check if a given region is a valid vein region (neither too bright nor too dark)."""
+        bright_threshold = 200  # Adjust this value based on your needs
+        dark_threshold = 50  # Adjust this value based on your needs
         mean_brightness = region.mean()
-        return mean_brightness > threshold
+
+        if mean_brightness > bright_threshold or mean_brightness < dark_threshold:
+            return False
+        return True
 
     def handle_reset_button(self):
         """Handle the event when the reset button is clicked."""
