@@ -100,12 +100,11 @@ class MainWindow(QtWidgets.QMainWindow):
             self.display_image(enhanced)
 
     def is_valid_vein_region(self, region):
-        """Check if a given region is a valid vein region (neither too bright nor too dark)."""
+        """Check if a given region is a valid vein region (not too bright)."""
         bright_threshold = 200  # Adjust this value based on your needs
-        dark_threshold = 50  # Adjust this value based on your needs
         mean_brightness = region.mean()
 
-        if mean_brightness > bright_threshold or mean_brightness < dark_threshold:
+        if mean_brightness > bright_threshold:
             return False
         return True
 
