@@ -13,9 +13,17 @@ class MainWindow(QtWidgets.QMainWindow):
         """Initialize the main window, camera, and UI event handlers."""
         super(MainWindow, self).__init__()
         loadUi("main.ui", self)
+        self.showFullScreen()
 
-        # Initialize the camera.
-        self.cap = cv2.VideoCapture("nvarguscamerasrc ! nvvidconv ! video/x-raw, width=1024, height=576, format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink", cv2.CAP_GSTREAMER)
+        # Initialize the camera
+        # For PC
+        self.cap = cv2.VideoCapture(0)
+
+        # For Jetson Nano
+        # self.cap = cv2.VideoCapture(
+        #     "nvarguscamerasrc ! nvvidconv ! video/x-raw, width=1024, height=576, format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink",
+        #     cv2.CAP_GSTREAMER,
+        # )
 
         # Initialize the timer for receiving frames from the camera.
         self.timer = QtCore.QTimer(self)
