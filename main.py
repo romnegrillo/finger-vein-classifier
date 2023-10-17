@@ -1,4 +1,5 @@
 import sys
+import os
 import cv2
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.uic import loadUi
@@ -12,7 +13,15 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         """Initialize the main window, camera, and UI event handlers."""
         super(MainWindow, self).__init__()
-        loadUi("main.ui", self)
+
+        # Get the directory of the current script.
+        script_dir = os.path.dirname(os.path.realpath(__file__))
+
+        # Join it with the file name to get its absolute path.
+        ui_file_path = os.path.join(script_dir, "main.ui")
+
+        loadUi(ui_file_path, self)
+
         self.showFullScreen()
 
         # Initialize the camera
