@@ -68,7 +68,7 @@
      <string>Reset</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="reset_input">
+   <widget class="QLineEdit" name="result_input">
     <property name="geometry">
      <rect>
       <x>810</x>
